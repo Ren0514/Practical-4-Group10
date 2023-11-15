@@ -48,3 +48,27 @@ netup <- function(d){
   # Return a list containing initialized nodes, weight matrices, and bias vectors
   return(list(h = h, W = W, b = b))
 }
+
+## forward: compute the remaining node values implied by inp, and return the 
+## updated network list
+## nn: a network list as built by netup
+## inp: a vector of input values for the first layer
+forward <- function(nn,inp){
+  
+  # Set the inp as the first layer of nodes
+  nn$h[[1]] <- inp
+
+  # iterate through hidden layers starting from the second layer
+  for (l in 2:length(nn$h)) {
+
+    # Compute the nodes in the current layer using the weights,
+    # nodes of previous layer, and offsets
+    nodes <- nn$W[[l-1]] %*% nn$h[[l-1]] + nn$b[[l-1]]
+
+    # Apply the ReLU transform
+    nn$h[[l]] <- pmax(nodes, 0)
+  }
+  
+  # Return the network list after forward propagation
+  return(nn)
+}
