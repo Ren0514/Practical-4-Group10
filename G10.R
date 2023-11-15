@@ -29,3 +29,22 @@ y_train <- train_data[,5]
 # Extract characteristics (X) and labels (y) for testing data
 X_test <- test_data[, 1:4]
 y_test <- test_data[,5]
+
+## netup: initialize a list representing the network
+## d: a vector giving the number of nodes in each layer of a network. 
+netup <- function(d){
+  
+  # Initialize a list of nodes of each layer
+  h <- lapply(d, numeric)
+  
+  # Initialize a list of weight matrices with elements from U(0, 0.2) random deviates
+  W <- lapply(seq_along(d)[-1], function(i) {
+    matrix(runif(d[i] * d[i - 1], min = 0, max = 0.2), nrow = d[i], ncol = d[i - 1])
+  })
+  
+  # Initialize a list of offset vectors with elements from U(0, 0.2) random deviates
+  b <- lapply(d[-1], function(n) runif(n, min = 0, max = 0.2))
+  
+  # Return a list containing initialized nodes, weight matrices, and bias vectors
+  return(list(h = h, W = W, b = b))
+}
