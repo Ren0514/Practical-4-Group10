@@ -73,41 +73,15 @@ forward <- function(nn,inp){
   return(nn)
 }
 
-<<<<<<< HEAD
-train <- function(nn,inp,k,eta=.01,mb=10,nstep=1){
-  
-  for (step in 1:nstep) {
-    
-    index <- sample(1:nrow(inp), mb)# generate a random sample set
-    
-    input_rows <- inp[index, ]# Input data of random samples
-    
-    labels <- k[index]# Corresponding labels
-    
-    for (i in 1:mb) {# Loop over samples set
-      
-      inp_row = as.vector(input_rows[i, ])
-      
-      nn <- forward(nn, inp_row)
-      
-      nn <- backward(nn, labels[i])
-      
-    
-    for (l in 1:length(nn$W)){
-      nn$W[[l]] <- nn$W[[l]] - eta*nn$dW[[l]]
-      nn$b[[l]] <- nn$b[[l]] - eta*nn$db[[l]]
-    }
-
-  }
-  
-  return(nn)
-  }
-}
-=======
-## loss_derivate: Compute the derivative of the loss for class k 
-## w.r.t. the nodes of output layer
-## last_layer: a vector of nodes in last layer
-## k: true class label for the current input
+# loss_derivate: Compute the derivative of the loss for class k w.r.t. the nodes 
+# of output layer
+#
+# Parameters:
+#   - last_layer: a vector of nodes in last layer
+#   - k: true class label for the current input
+# 
+# Returns:
+#   - nn: the the derivative of the loss in output layer
 loss_derivative <- function(last_layer, k) {
   
   # Compute the derivative of the loss for class k
@@ -164,4 +138,32 @@ backward <- function(nn, k) {
 
 }
 
->>>>>>> cfc4e88859cba9ecb4a2faab00c830d643511d91
+train <- function(nn,inp,k,eta=.01,mb=10,nstep=1){
+  
+  for (step in 1:nstep) {
+    
+    index <- sample(1:nrow(inp), mb)# generate a random sample set
+    
+    input_rows <- inp[index, ]# Input data of random samples
+    
+    labels <- k[index]# Corresponding labels
+    
+    for (i in 1:mb) {# Loop over samples set
+      
+      inp_row = as.vector(input_rows[i, ])
+      
+      nn <- forward(nn, inp_row)
+      
+      nn <- backward(nn, labels[i])
+      
+    
+    for (l in 1:length(nn$W)){
+      nn$W[[l]] <- nn$W[[l]] - eta*nn$dW[[l]]
+      nn$b[[l]] <- nn$b[[l]] - eta*nn$db[[l]]
+    }
+
+  }
+  
+  return(nn)
+  }
+}
