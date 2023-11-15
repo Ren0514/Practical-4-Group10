@@ -73,6 +73,7 @@ forward <- function(nn,inp){
   return(nn)
 }
 
+<<<<<<< HEAD
 train <- function(nn,inp,k,eta=.01,mb=10,nstep=1){
   
   for (step in 1:nstep) {
@@ -102,3 +103,65 @@ train <- function(nn,inp,k,eta=.01,mb=10,nstep=1){
   return(nn)
   }
 }
+=======
+## loss_derivate: Compute the derivative of the loss for class k 
+## w.r.t. the nodes of output layer
+## last_layer: a vector of nodes in last layer
+## k: true class label for the current input
+loss_derivative <- function(last_layer, k) {
+  
+  # Compute the derivative of the loss for class k
+  loss_h = exp(last_layer) / sum(exp(last_layer))
+  loss_h[k] = loss_h[k] - 1
+  
+  # Return the derivative of the loss
+  return(loss_h)
+}
+
+
+
+# Backward: Compute the derivatives of L_i w.r.t. all the other nodes by working 
+# backwards through the layers applying the chain rule (back-propagation)
+# 
+# Parameters:
+#   - nn: network list returned from forward function, containing nodes, weights, 
+#     and offset for each layer
+#   - k: true class label for the current input, used in the computation of the 
+#     last layer's derivative.
+# 
+# Returns:
+#   - nn: the updated network list after forward
+backward <- function(nn, k) {
+  
+  # Get the total number of layers
+  total_l <- length(nn$h)
+  
+  # Compute the derivative of the loss w.r.t. the output of the last layer
+  nn$dh[[total_l]] <- loss_derivative(nn$h[[total_l]], k)
+  
+  # iterate through the hidden layers in reverse order for backpropagation
+  for (l in (total_l-1):1){
+    
+    # Compute the derivative of the loss w.r.t the nodes of the current layer
+    d <- nn$dh[[l + 1]]
+    
+    # set the values where the node value was less than or equal to 0 to 0
+    d[nn$h[[l + 1]] <= 0] <- 0
+    
+    # Compute the derivative of the loss w.r.t the nodes of the current layer
+    nn$dh[[l]] <- t(nn$W[[l]]) %*% d
+    
+    # Store the derivative of the loss w.r.t the offset for the current layer
+    nn$db[[l]] <- d
+    
+    # Compute the derivative of the loss w.r.t the weights of the current layer
+    nn$dW[[l]] <- d %*% t(nn$h[[l]])
+
+  }
+  
+  # Return the updated network list after backward propagation
+  return(nn)
+
+}
+
+>>>>>>> cfc4e88859cba9ecb4a2faab00c830d643511d91
