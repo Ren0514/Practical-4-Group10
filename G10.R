@@ -72,3 +72,33 @@ forward <- function(nn,inp){
   # Return the network list after forward propagation
   return(nn)
 }
+
+train <- function(nn,inp,k,eta=.01,mb=10,nstep=1){
+  
+  for (step in 1:nstep) {
+    
+    index <- sample(1:nrow(inp), mb)# generate a random sample set
+    
+    input_rows <- inp[index, ]# Input data of random samples
+    
+    labels <- k[index]# Corresponding labels
+    
+    for (i in 1:mb) {# Loop over samples set
+      
+      inp_row = as.vector(input_rows[i, ])
+      
+      nn <- forward(nn, inp_row)
+      
+      nn <- backward(nn, labels[i])
+      
+    
+    for (l in 1:length(nn$W)){
+      nn$W[[l]] <- nn$W[[l]] - eta*nn$dW[[l]]
+      nn$b[[l]] <- nn$b[[l]] - eta*nn$db[[l]]
+    }
+
+  }
+  
+  return(nn)
+  }
+}
