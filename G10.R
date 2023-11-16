@@ -30,8 +30,13 @@ y_train <- train_data[,5]
 X_test <- test_data[, 1:4]
 y_test <- test_data[,5]
 
-## netup: initialize a list representing the network
-## d: a vector giving the number of nodes in each layer of a network. 
+# netup: initialize a list representing the network
+#
+# Parameters:
+#   - d: a vector giving the number of nodes in each layer of a network
+# 
+# Returns:
+#   - nn: the initialized network list with nodes, weights and offsets
 netup <- function(d){
   
   # Initialize a list of nodes of each layer
@@ -49,10 +54,15 @@ netup <- function(d){
   return(list(h = h, W = W, b = b))
 }
 
-## forward: compute the remaining node values implied by inp, and return the 
-## updated network list
-## nn: a network list as built by netup
-## inp: a vector of input values for the first layer
+# forward: compute the remaining node values implied by inp, and return the 
+# updated network list
+#
+# Parameters:
+#   - nn: a network list as built by netup
+#   - inp: a vector of input values for the first layer
+# 
+# Returns:
+#   - nn: the network list updated by forward
 forward <- function(nn,inp){
   
   # Set the inp as the first layer of nodes
@@ -72,6 +82,7 @@ forward <- function(nn,inp){
   # Return the network list after forward propagation
   return(nn)
 }
+
 
 # loss_derivate: Compute the derivative of the loss for class k w.r.t. the nodes 
 # of output layer
