@@ -138,32 +138,73 @@ backward <- function(nn, k) {
 
 }
 
-train <- function(nn,inp,k,eta=.01,mb=10,nstep=1){
+# train: Train a neural network by using stochastic gradient descent (SGD)
+# 
+# Parameters:
+#   - nn: an initialized network list created by netup
+#   - inp: a matrix of input data where each row corresponds to a data point
+#   - k: a vector containing corresponding labels for the input data
+#   - eta: step size of updating weights and offsets
+#   - mb: the number of data to randomly sample to compute the gradient
+#   - nstep: the number of optimization steps
+# 
+# Returns:
+#   - nn: trained neural network
+train <- function(nn,inp,k,eta=.01,mb=10,nstep=10000){
   
+  # Iterate over training steps
   for (step in 1:nstep) {
     
-    index <- sample(1:nrow(inp), mb)# generate a random sample set
+    # generate a random sample set of length mb
+    index <- sample(1:nrow(inp), mb)
     
-    input_rows <- inp[index, ]# Input data of random samples
+    # Input data of random samples
+    input_rows <- inp[index, ]
     
-    labels <- k[index]# Corresponding labels
+    # Corresponding labels of the samples set
+    labels <- k[index]
     
-    for (i in 1:mb) {# Loop over samples set
+    # Loop over samples set
+    for (i in 1:mb) {
       
-      inp_row = as.vector(input_rows[i, ])
+      # Get each input row
+      inp_row = input_rows[i, ]
       
+      # update network list by forward
       nn <- forward(nn, inp_row)
       
+      # update network list by backward
       nn <- backward(nn, labels[i])
       
-    
-    for (l in 1:length(nn$W)){
-      nn$W[[l]] <- nn$W[[l]] - eta*nn$dW[[l]]
-      nn$b[[l]] <- nn$b[[l]] - eta*nn$db[[l]]
+      # Accumulate gradients for each input row
+      if (i == 1) {
+        db_sum <- nn$db
+        dW_sum <- nn$dW
+      } else {
+        db_sum <- lapply(seq_along(db_sum), function(j) db_sum[[j]] + nn$db[[j]])
+        dW_sum <- lapply(seq_along(dW_sum), function(j) dW_sum[[j]] + nn$dW[[j]])
+      }
+      
     }
+    
+    # compute the average derivative of the loss based on mb samples set
+    db_avg <- lapply(db_sum, function(x) x / mb)
+    dW_avg <- lapply(dW_sum, function(x) x / mb)
+    
+    # Update weights and offsets using the averaged derivative
+    nn$W <- lapply(seq_along(nn$W), function(l) nn$W[[l]] - eta * dW_avg[[l]])
+    nn$b <- lapply(seq_along(nn$b), function(l) nn$b[[l]] - eta * db_avg[[l]])
 
   }
   
+  # Return the trained neural network
   return(nn)
-  }
 }
+
+
+# Initialize a 4-8-7-3 network
+set.seed(102)
+nn <- netup(c(4, 8, 7, 3))
+
+# Train the network
+nn <- train(nn, X_train, y_train)
