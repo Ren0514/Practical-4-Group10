@@ -72,3 +72,4 @@ forward <- function(nn,inp){
   # Return the network list after forward propagation
   return(nn)
 }
+   
