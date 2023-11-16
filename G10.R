@@ -40,10 +40,10 @@
 # the weights and offsets is updated by the average gradients.
 # 
 # 4. Model prediction:
-# Make predictions on the test set using the predict_nn function with the trained
-# network from train function. Calculate and print the misclassification
-# rate of the trained model. The misclassification rate is the proportion of 
-# misclassified test examples in total test examples.
+# Make predictions on the test set using the predict_nn function with the 
+# trained network from train function. Calculate and print the 
+# misclassification rate of the trained model. The misclassification rate 
+# is the proportion of misclassified test examples in total test examples.
 
 
 
@@ -128,8 +128,8 @@ forward <- function(nn,inp){
 }
 
 
-# loss_derivate: Compute the derivative of the loss for class k w.r.t. the nodes 
-# of output layer
+# loss_derivate: Compute the derivative of the loss for class k w.r.t. 
+# the nodes of output layer
 #
 # Parameters:
 #   - last_layer: a vector of nodes in last layer
