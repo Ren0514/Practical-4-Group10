@@ -74,6 +74,7 @@ y_train <- train_data[,5]
 X_test <- test_data[, 1:4]
 y_test <- test_data[,5]
 
+
 # netup: initialize a list representing the network
 #
 # Parameters:
@@ -97,6 +98,8 @@ netup <- function(d){
   # Return a list containing initialized nodes, weight matrices, and bias vectors
   return(list(h = h, W = W, b = b))
 }
+
+
 
 # forward: compute the remaining node values implied by inp, and return the 
 # updated network list
@@ -128,8 +131,9 @@ forward <- function(nn,inp){
 }
 
 
-# loss_derivate: Compute the derivative of the loss for class k w.r.t. 
-# the nodes of output layer
+
+# loss_derivate: Compute the derivative of the loss for class k w.r.t. the nodes 
+# of output layer
 #
 # Parameters:
 #   - last_layer: a vector of nodes in last layer
@@ -193,6 +197,7 @@ backward <- function(nn, k) {
 
 }
 
+
 # train: Train a neural network by using stochastic gradient descent (SGD)
 # 
 # Parameters:
@@ -211,7 +216,7 @@ train <- function(nn,inp,k,eta=.01,mb=10,nstep=10000){
   for (step in 1:nstep) {
     
     # generate a random sample set of length mb
-    index <- sample(1:nrow(inp), mb)
+    index <- sample(seq_len(nrow(inp)), mb)
     
     # Input data of random samples
     input_rows <- inp[index, ]
@@ -276,7 +281,7 @@ nn <- train(nn, X_train, y_train)
 predict_nn <- function(nn, test_data) {
   
   # create a predictions vector to store all predicted labels
-    predictions <- sapply(1:nrow(test_data), function(i) {
+  predictions <- sapply(seq_len(nrow(test_data)), function(i) {
     
     # use forward function get the output of each test row
     nn <- forward(nn, test_data[i, ])
