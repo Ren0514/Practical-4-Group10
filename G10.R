@@ -3,6 +3,18 @@
 # Xinhao Liu(s2495872)
 # Yingjie Yang(s2520758)
 
+# Link of github repository:
+# https://github.com/Ren0514/Practical-4-Group10.git
+
+
+# Contributions to the Project
+# Xinyi Ren: 35%, mainly work on backward, train function and overview comment
+# Xinhao Liu: 35%, mainly work on netup, forward and train function
+# Yingjie Yang: 30%, mainly work on dividing dataset and prediction
+# Everyone proofread all sections as well as suggested possible optimization 
+# and comments
+
+
 # Load the Iris dataset
 data(iris)
 
