@@ -161,9 +161,6 @@ backward <- function(nn, k) {
 
 }
 
-<<<<<<< HEAD
-
-=======
 # train: Train a neural network by using stochastic gradient descent (SGD)
 # 
 # Parameters:
@@ -266,4 +263,3 @@ predictions <- predict_nn(nn, X_test)
 # Compute misclassification rate by comparing predictions to the true labels
 misclassification_rate <- sum(predictions != y_test) / length(y_test)
 cat('The misclassification rate of the tranined model is ' ,misclassification_rate , '\n')
->>>>>>> 06c772f73a66a96cd9e13fde9e56dc5e74a8f69f
