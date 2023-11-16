@@ -1,6 +1,11 @@
 # Practical-4-Group10
 Practical 4 (group-work): Stochastic gradient descent
 
+Group 10: 
+Xinyi Ren(s2506973)
+Xinhao Liu(s2495872)
+Yingjie Yang(s2520758)
+
 Overview
 The code implements a neural network model to classify irises to species based
 on the 4 characteristics given in the iris dataset. The neural network is
