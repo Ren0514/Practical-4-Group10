@@ -164,4 +164,4 @@ backward <- function(nn, k) {
 
 }
 
->>>>>>> cfc4e88859cba9ecb4a2faab00c830d643511d91
+
